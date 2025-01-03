@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biny</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+        header, .gallery-item, footer {
+            opacity: 0;
+            transform: translateY(-50px);
+            animation: drop-in 1s ease-out forwards;
+        }
+        header {
+            animation-delay: 0.2s;
+        }
+        .gallery-item {
+            animation-delay: calc(0.4s + var(--delay) * 0.2s);
+        }
+        footer {
+            animation-delay: 1.2s;
+        }
+        @keyframes drop-in {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        header {
+            text-align: center;
+            margin: 20px;
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+        header p {
+            font-size: 1.2em;
+            color: #555;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px 0;
+        }
+        .gallery-item {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            --delay: 0;
+        }
+        .gallery-item:nth-child(1) { --delay: 0; }
+        .gallery-item:nth-child(2) { --delay: 1; }
+        .gallery-item:nth-child(3) { --delay: 2; }
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .gallery-item a {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+            display: block;
+            padding: 10px;
+        }
+        .gallery-item p {
+            font-size: 0.9em;
+            color: #666;
+            margin: 0 10px 10px;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 0.8em;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Biny</h1>
+        <p>Simple drawings made with great imagination.</p>
+    </header>
+    <section class="gallery">
+        <div class="gallery-item">
+            <img src="image1.jpg" alt="Artwork 1">
+            <a href="image1.jpg" target="_blank">View Artwork 1</a>
+            <p>A captivating abstract sketch.</p>
+        </div>
+        <div class="gallery-item">
+            <img src="image2.jpg" alt="Artwork 2">
+            <a href="image2.jpg" target="_blank">View Artwork 2</a>
+            <p>A dreamy landscape drawing.</p>
+        </div>
+        <div class="gallery-item">
+            <img src="image3.jpg" alt="Artwork 3">
+            <a href="image3.jpg" target="_blank">View Artwork 3</a>
+            <p>An imaginative character design.</p>
+        </div>
+    </section>
+    <footer>
+        &copy; 2025 Biny. All rights reserved.
+    </footer>
+</body>
+</html>
