@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>next</title>
+  <title>Proposez une Idée</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -28,15 +28,22 @@
       margin: 0;
       font-size: 24px;
     }
-    iframe {
+    .iframe-container {
+      position: relative;
       width: 100%;
       max-width: 800px;
-      height: 600px;
-      border: none;
+      height: 580px; /* Réduire la hauteur */
+      overflow: hidden; /* Masquer la partie en excès */
       border-radius: 8px;
-      overflow: hidden;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       background-color: #fff;
+    }
+    .iframe-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 600px; /* La hauteur originale du formulaire */
     }
     footer {
       margin-top: 20px;
@@ -47,19 +54,21 @@
 </head>
 <body>
   <header>
-    <h1>/h1>
+    <h1>Proposez une idée à dessiner</h1>
   </header>
   
-  <iframe
-    id="JotFormIFrame-250035585068054"
-    title="Formulaire"
-    onload="window.parent.scrollTo(0,0)"
-    allowtransparency="true"
-    allow="geolocation; microphone; camera; fullscreen"
-    src="https://form.jotform.com/250035585068054"
-    frameborder="0"
-    scrolling="no"
-  ></iframe>
+  <div class="iframe-container">
+    <iframe
+      id="JotFormIFrame-250035585068054"
+      title="Formulaire"
+      onload="window.parent.scrollTo(0,0)"
+      allowtransparency="true"
+      allow="geolocation; microphone; camera; fullscreen"
+      src="https://form.jotform.com/250035585068054"
+      frameborder="0"
+      scrolling="no"
+    ></iframe>
+  </div>
   
   <script src="https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js"></script>
   <script>
@@ -67,7 +76,7 @@
   </script>
   
   <footer>
-    Biny.
+    Fait avec ❤️ pour recueillir vos idées créatives.
   </footer>
 </body>
 </html>
