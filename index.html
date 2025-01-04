@@ -75,8 +75,11 @@
         .gallery-item:nth-child(3) { --delay: 2; }
         .gallery-item img {
             width: 100%;
-            height: auto;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
             display: block;
+            aspect-ratio: 1 / 1;
         }
         .gallery-item a {
             text-decoration: none;
@@ -114,7 +117,12 @@
             <a href="https://i.ibb.co/mz7fTXZ/IMG-0500.png" target="_blank">
                 <img src="https://i.ibb.co/mz7fTXZ/IMG-0500.png" alt="Artwork 2">
             </a>
-            <p>a car</p>
+            <p>a car</p> </div>
+        <div class="gallery-item">
+            <a href="https://i.ibb.co/SBDWLYt/Documents-scann-s-page-0001.jpg" target="_blank">
+                <img src="https://i.ibb.co/SBDWLYt/Documents-scann-s-page-0001.jpg" alt="Artwork 3">
+            </a>
+            <p>a red fish</p>
         </div>
     </section>
     <footer>
