@@ -1,49 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Suggestion Box</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      text-align: center;
-      padding: 20px;
-    }
-    form {
-      background: white;
-      padding: 20px;
-      border: 1px solid #ccc;
-      display: inline-block;
-    }
-    input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-    }
-    button {
-      padding: 10px 20px;
-      background: #007BFF;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #0056b3;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embedded Form</title>
 </head>
 <body>
-  <h1>Suggestion Box</h1>
-  <form id="suggestionForm">
-    <label for="suggestion">Suggestion for the next drawing:</label><br>
-    <input type="text" id="suggestion" name="suggestion" required><br>
-    <button type="submit">Submit</button>
-  </form>
-
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
-  <script src="script.js"></script>
+    <iframe 
+        width="640px" 
+        height="480px" 
+        src="https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAN__jsa5ZBUOE9MSVk0T0tOTDRRU0dEQU9OVEZIT0wyVi4u&embed=true" 
+        frameborder="0" 
+        marginwidth="0" 
+        marginheight="0" 
+        style="border: none; max-width:100%; max-height:100vh;" 
+        allowfullscreen 
+        webkitallowfullscreen 
+        mozallowfullscreen 
+        msallowfullscreen>
+    </iframe>
 </body>
 </html>
