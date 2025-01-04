@@ -1,64 +1,49 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Proposez une Idée</title>
+  <title>Suggestion Box</title>
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      background-color: #f1f1fe;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      text-align: center;
+      padding: 20px;
     }
-    .iframe-container {
-      position: relative;
-      width: calc(100% - 50px); /* Ajuste la largeur visible */
-      max-width: 760px;
-      height: 400px; /* Ajuste la hauteur visible */
-      overflow: hidden;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    form {
+      background: white;
+      padding: 20px;
+      border: 1px solid #ccc;
+      display: inline-block;
     }
-    .iframe-container iframe {
-      position: absolute;
-      top: -20px; /* Décale légèrement vers le haut */
-      left: -20px; /* Décale légèrement vers la gauche */
-      width: calc(100% + 40px); /* Ajoute une marge des deux côtés */
-      height: calc(100% + 40px); /* Ajoute une marge en haut et en bas */
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
     }
-    footer {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #555;
+    button {
+      padding: 10px 20px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
     }
   </style>
 </head>
 <body>
-  <div class="iframe-container">
-    <iframe
-      id="JotFormIFrame-250035585068054"
-      title="Formulaire"
-      onload="window.parent.scrollTo(0,0)"
-      allowtransparency="true"
-      allow="geolocation; microphone; camera; fullscreen"
-      src="https://form.jotform.com/250035585068054"
-      frameborder="0"
-      scrolling="no"
-    ></iframe>
-  </div>
-  
-  <script src="https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js"></script>
-  <script>
-    window.jotformEmbedHandler("iframe[id='JotFormIFrame-250035585068054']", "https://form.jotform.com/");
-  </script>
-  
-  <footer>
-    Made whith 🤍 by Biny
-  </footer>
+  <h1>Suggestion Box</h1>
+  <form id="suggestionForm">
+    <label for="suggestion">Suggestion for the next drawing:</label><br>
+    <input type="text" id="suggestion" name="suggestion" required><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
