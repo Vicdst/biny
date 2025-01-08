@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biny Keychain Shop</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #ffe8e8, #ffe6f7);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background: #e63946;
+        }
+        #orderSection {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            margin-top: 20px;
+            text-align: center;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .price {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .link {
+            color: #ff6b6b;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Biny's Keychain Shop</h1>
+    <p>Each keychain features unique artwork by Biny for just <strong>6€</strong>!</p>
+    <button onclick="startOrder()">Order Now</button>
+
+    <div id="orderSection" style="display:none;">
+        <p>Please choose a design for your keychain. To see the designs, click <a href="https://biny.space" target="_blank" class="link">here</a>.</p>
+        <select id="designMenu" onchange="updatePrice()">
+            <option value="" disabled selected>Select a design</option>
+            <option value="dog">A Dog</option>
+            <option value="car">A Car</option>
+            <option value="flower">A Flower</option>
+            <option value="fish">A Fish</option>
+        </select>
+        <div class="price" id="price">Price: 6€</div>
+        <button onclick="continueOrder()">Continue</button>
+    </div>
+
+    <script>
+        function startOrder() {
+            document.getElementById('orderSection').style.display = 'block';
+        }
+
+        function updatePrice() {
+            const menu = document.getElementById('designMenu');
+            if (menu.value) {
+                document.getElementById('price').textContent = 'Price: 6€';
+            }
+        }
+
+        function continueOrder() {
+            const menu = document.getElementById('designMenu');
+            const selectedDesign = menu.value;
+
+            if (!selectedDesign) {
+                alert('Please select a design first!');
+                return;
+            }
+
+            let stripeLink = '';
+
+            switch (selectedDesign) {
+                case 'dog':
+                    stripeLink = 'https://stripe.com/pay/dog';
+                    break;
+                case 'car':
+                    stripeLink = 'https://stripe.com/pay/car';
+                    break;
+                case 'flower':
+                    stripeLink = 'https://stripe.com/pay/flower';
+                    break;
+                case 'fish':
+                    stripeLink = 'https://stripe.com/pay/fish';
+                    break;
+                default:
+                    alert('Invalid selection!');
+                    return;
+            }
+
+            window.location.href = stripeLink;
+        }
+    </script>
+</body>
+</html>
