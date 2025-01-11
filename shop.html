@@ -6,134 +6,116 @@
     <title>Biny Keychain Shop</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(to bottom right, #ffe8e8, #ffe6f7);
+            background-color: #f9f9f9;
             color: #333;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            overflow-x: hidden;
         }
-        h1 {
-            font-size: 2.5rem;
-            color: #ff6b6b;
-            margin-bottom: 20px;
+        header {
+            text-align: center;
+            margin: 20px;
         }
-        p {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
         }
-        button {
-            background: #ff6b6b;
-            color: white;
-            border: none;
+        header p {
+            font-size: 1.2em;
+            color: #555;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px 0;
+        }
+        .gallery-item {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding-bottom: 10px;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            aspect-ratio: 1 / 1;
+        }
+        .gallery-item p {
+            font-size: 0.9em;
+            color: #666;
+            margin: 10px;
+        }
+        .gallery-item a {
+            display: inline-block;
+            margin-top: 10px;
             padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
             border-radius: 5px;
             font-size: 1rem;
-            cursor: pointer;
             transition: background 0.3s ease;
         }
-        button:hover {
-            background: #e63946;
+        .gallery-item a:hover {
+            background-color: #0056b3;
         }
-        #orderSection {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            max-width: 400px;
-            width: 100%;
-            margin-top: 20px;
+        footer {
             text-align: center;
-        }
-        select {
-            width: 100%;
             padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-        .price {
-            margin-top: 10px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #333;
-        }
-        .link {
-            color: #ff6b6b;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .link:hover {
-            text-decoration: underline;
+            font-size: 0.8em;
+            color: #888;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Biny's Keychain Shop</h1>
-    <p>Each keychain features unique artwork by Biny for just <strong>6€</strong>!</p>
-    <button onclick="startOrder()">Order Now</button>
-
-    <div id="orderSection" style="display:none;">
-        <p>Please choose a design for your keychain. To see the designs, click <a href="https://biny.space" target="_blank" class="link">here</a>.</p>
-        <select id="designMenu" onchange="updatePrice()">
-            <option value="" disabled selected>Select a design</option>
-            <option value="dog">A Dog</option>
-            <option value="car">A Car</option>
-            <option value="flower">A Flower</option>
-            <option value="fish">A Fish</option>
-        </select>
-        <div class="price" id="price">Price: 6€</div>
-        <button onclick="continueOrder()">Continue</button>
-    </div>
-
-    <script>
-        function startOrder() {
-            document.getElementById('orderSection').style.display = 'block';
-        }
-
-        function updatePrice() {
-            const menu = document.getElementById('designMenu');
-            if (menu.value) {
-                document.getElementById('price').textContent = 'Price: 6€';
-            }
-        }
-
-        function continueOrder() {
-            const menu = document.getElementById('designMenu');
-            const selectedDesign = menu.value;
-
-            if (!selectedDesign) {
-                alert('Please select a design first!');
-                return;
-            }
-
-            let stripeLink = '';
-
-            switch (selectedDesign) {
-                case 'dog':
-                    stripeLink = 'https://buy.stripe.com/9AQ14UfTd7iu9DGcMO';
-                    break;
-                case 'car':
-                    stripeLink = 'https://buy.stripe.com/6oE00QfTd0U6aHK9AD';
-                    break;
-                case 'flower':
-                    stripeLink = 'https://buy.stripe.com/6oE6pebCX5amg24dQR';
-                    break;
-                case 'fish':
-                    stripeLink = 'https://buy.stripe.com/cN200Q9uP46icPSfYY';
-                    break;
-                default:
-                    alert('Invalid selection!');
-                    return;
-            }
-
-            window.location.href = stripeLink;
-        }
-    </script>
+    <header>
+        <h1>Biny Keychain Shop</h1>
+        <p>Transformez chaque dessin en un magnifique porte-clé pour seulement 6€ !</p>
+    </header>
+    <section class="gallery">
+        <div class="gallery-item">
+            <img src="https://i.ibb.co/ctvZFpm/471987932-2356512391359668-2241592680620960126-n.jpg" alt="Artwork 1">
+            <p>Une fleur</p>
+            <a href="https://buy.stripe.com/6oE6pebCX5amg24dQR" target="_blank">Commander en porte-clé</a>
+        </div>
+        <div class="gallery-item">
+            <img src="https://i.ibb.co/mz7fTXZ/IMG-0500.png" alt="Artwork 2">
+            <p>Une voiture</p>
+            <a href="https://buy.stripe.com/6oE00QfTd0U6aHK9AD" target="_blank">Commander en porte-clé</a>
+        </div>
+        <div class="gallery-item">
+            <img src="https://i.ibb.co/SBDWLYt/Documents-scann-s-page-0001.jpg" alt="Artwork 3">
+            <p>Un poisson rouge</p>
+            <a href="https://buy.stripe.com/cN200Q9uP46icPSfYY" target="_blank">Commander en porte-clé</a>
+        </div>
+        <div class="gallery-item">
+            <img src="http://www.image-heberg.fr/files/17362834533785204242.jpg" alt="Artwork 4">
+            <p>Une maison</p>
+            <a href="https://buy.stripe.com/cN200Q9uP46icPSfYY" target="_blank">Commander en porte-clé</a>
+        </div>
+        <div class="gallery-item">
+            <img src="https://upload.skybot.fr/uploads/677e792bbf3949.22326390.jpeg" alt="Artwork 5">
+            <p>Un chien</p>
+            <a href="https://buy.stripe.com/9AQ14UfTd7iu9DGcMO" target="_blank">Commander en porte-clé</a>
+        </div>
+    </section>
+    <footer>
+        &copy; 2025 Biny. Tous droits réservés.
+    </footer>
 </body>
 </html>
