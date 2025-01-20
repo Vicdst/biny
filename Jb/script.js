@@ -1,48 +1,38 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
+const API_KEY = "ag:19e66ad5:20250120:jambon-beurre:048210a8";
+const API_URL = "https://api.mistral.ai/v1/chat";
 
-.chat-container {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    width: 300px;
-    text-align: center;
-}
+async function sendMessage() {
+    const userInput = document.getElementById('user-input').value;
+    if (userInput.trim() === "") return;
 
-.chat-box {
-    border: 1px solid #ccc;
-    height: 300px;
-    overflow-y: scroll;
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #f9f9f9;
-}
+    const chatBox = document.getElementById('chat-box');
+    chatBox.innerHTML += `<div><strong>Vous:</strong> ${userInput}</div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
 
-input[type="text"] {
-    width: calc(100% - 22px);
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                messages: [{ role: "user", content: userInput }]
+            })
+        });
 
-button {
-    padding: 10px 20px;
-    border: none;
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 5px;
-    cursor: pointer;
-}
+        if (!response.ok) {
+            throw new Error('Erreur lors de l\'envoi du message.');
+        }
 
-button:hover {
-    background-color: #0056b3;
+        const data = await response.json();
+        const agentResponse = data.choices[0].message.content;
+        chatBox.innerHTML += `<div><strong>Jambon Beurre:</strong> ${agentResponse}</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+    } catch (error) {
+        chatBox.innerHTML += `<div><strong>Jambon Beurre:</strong> Erreur: ${error.message}</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    document.getElementById('user-input').value = '';
 }
