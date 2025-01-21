@@ -3,16 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat avec Jambon Beurre</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Accès au site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .hidden {
+            display: none;
+        }
+        .dark-mode {
+            background-color: rgb(17, 17, 18);
+            color: white;
+        }
+        .light-mode {
+            background-color: white;
+            color: black;
+        }
+    </style>
 </head>
-<body>
-    <div class="chat-container">
-        <h1>Chat avec Jambon Beurre</h1>
-        <div id="chat-box" class="chat-box"></div>
-        <input type="text" id="user-input" placeholder="Tapez votre message...">
-        <button onclick="sendMessage()">Envoyer</button>
+<body class="light-mode">
+    <div id="login-form">
+        <h2>Connexion</h2>
+        <form onsubmit="checkCredentials(event)">
+            <label for="username">Identifiant:</label>
+            <input type="text" id="username" name="username" required><br><br>
+            <label for="password">Mot de passe:</label>
+            <input type="password" id="password" name="password" required><br><br>
+            <button type="submit">Se connecter</button>
+        </form>
     </div>
-    <script src="script.js"></script>
+    <div id="content" class="hidden">
+        <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/5.0.1/gradio.js"></script>
+        <gradio-app src="https://vicdst-jambon-beurre.hf.space"></gradio-app>
+    </div>
+
+    <script>
+        function checkCredentials(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'boulangerie' && password === '287') {
+                document.getElementById('login-form').style.display = 'none';
+                document.getElementById('content').classList.remove('hidden');
+            } else {
+                alert('Identifiant ou mot de passe incorrect.');
+            }
+        }
+
+        function updateTheme() {
+            const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.body.className = isDarkMode ? 'dark-mode' : 'light-mode';
+        }
+
+        // Initial check
+        updateTheme();
+
+        // Add event listener for changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateTheme);
+    </script>
 </body>
 </html>
