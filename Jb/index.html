@@ -15,19 +15,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('background.jpeg') no-repeat center center/cover;
-            filter: blur(5px);
-            z-index: -1;
         }
         .hidden {
             display: none;
@@ -47,9 +34,6 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .no-background::before {
-            content: none;
         }
         .maintenance {
             display: flex;
@@ -95,7 +79,7 @@
 
     <script>
         // Définir la variable maintenance
-        const maintenance = true; // Changez cette valeur pour activer ou désactiver la maintenance
+        const maintenance = false; // Changez cette valeur pour activer ou désactiver la maintenance
 
         // Vérifier la valeur de maintenance et afficher la page de maintenance si nécessaire
         if (maintenance) {
@@ -114,7 +98,6 @@
             if (username === 'boulangerie' && password === '287') {
                 document.getElementById('login-form').style.display = 'none';
                 document.getElementById('app-content').classList.remove('hidden');
-                document.body.classList.add('no-background');
             } else {
                 alert('Identifiant ou mot de passe incorrect.');
             }
