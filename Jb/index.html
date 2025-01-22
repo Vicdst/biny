@@ -56,6 +56,20 @@
             const validUser = credentials.find(cred => cred.id === username && cred.mdp === password);
 
             if (validUser) {
+                if (validUser.id === 'tep-visitor') {
+                    const now = new Date();
+                    const hours = now.getHours();
+                    const minutes = now.getMinutes();
+                    const currentTime = hours * 60 + minutes;
+                    const startTime = 7 * 60; // 7h00
+                    const endTime = 23 * 60 + 30; // 23h30
+
+                    if (currentTime < startTime || currentTime > endTime) {
+                        alert('Accès restreint pour ce compte entre 7h00 et 23h30.');
+                        return;
+                    }
+                }
+
                 document.getElementById('login-form').style.display = 'none';
                 document.getElementById('content').classList.remove('hidden');
             } else {
