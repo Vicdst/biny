@@ -22,6 +22,15 @@
             background-color: white;
             color: black;
         }
+        #loading {
+            margin-top: 20px;
+        }
+        #loading-bar {
+            width: 0%;
+            height: 20px;
+            background-color: #4caf50;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body class="light-mode">
@@ -34,6 +43,10 @@
             <input type="password" id="password" name="password" required><br><br>
             <button type="submit">Se connecter</button>
         </form>
+    </div>
+    <div id="loading" class="hidden">
+        <h2>Fils d'attente</h2>
+        <div id="loading-bar"></div>
     </div>
     <div id="content" class="hidden">
         <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/5.0.1/gradio.js"></script>
@@ -71,7 +84,26 @@
                 }
 
                 document.getElementById('login-form').style.display = 'none';
-                document.getElementById('content').classList.remove('hidden');
+                document.getElementById('loading').classList.remove('hidden');
+
+                let delay;
+                if (validUser.id === 'boulangerie' || validUser.id === 'lzy-admin') {
+                    delay = Math.floor(Math.random() * (5 - 2 + 1) + 2) * 1000; // 2 à 5 secondes
+                } else if (validUser.id === 'tep-visitor') {
+                    delay = Math.floor(Math.random() * (45 - 20 + 1) + 20) * 1000; // 20 à 45 secondes
+                }
+
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += 1;
+                    document.getElementById('loading-bar').style.width = progress + '%';
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        document.getElementById('loading').classList.add('hidden');
+                        document.getElementById('content').classList.remove('hidden');
+                    }
+                }, delay / 100);
+
             } else {
                 alert('Identifiant ou mot de passe incorrect.');
             }
