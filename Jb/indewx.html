@@ -41,12 +41,21 @@
     </div>
 
     <script>
+        // Identifiants et mots de passe
+        const credentials = [
+            { id: 'boulangerie', mdp: '287' },
+            { id: 'lzy-admin', mdp: '492' },
+            { id: 'tep-visitor', mdp: '2025' }
+        ];
+
         function checkCredentials(event) {
             event.preventDefault();
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            if (username === 'boulangerie' && password === '287') {
+            const validUser = credentials.find(cred => cred.id === username && cred.mdp === password);
+
+            if (validUser) {
                 document.getElementById('login-form').style.display = 'none';
                 document.getElementById('content').classList.remove('hidden');
             } else {
