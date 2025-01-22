@@ -48,6 +48,9 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+        .no-background::before {
+            content: none;
+        }
     </style>
 </head>
 <body class="light-mode">
@@ -77,6 +80,7 @@
             if (username === 'boulangerie' && password === '287') {
                 document.getElementById('login-form').style.display = 'none';
                 document.getElementById('content').classList.remove('hidden');
+                document.body.classList.add('no-background');
             } else {
                 alert('Identifiant ou mot de passe incorrect.');
             }
