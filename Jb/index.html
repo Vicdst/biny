@@ -25,32 +25,21 @@
     </style>
 </head>
 <body class="light-mode">
-    <div id="login-form">
-        <h2>Connexion</h2>
-        <form onsubmit="checkCredentials(event)">
-            <label for="username">Identifiant:</label>
-            <input type="text" id="username" name="username" required><br><br>
-            <label for="password">Mot de passe:</label>
-            <input type="password" id="password" name="password" required><br><br>
-            <button type="submit">Se connecter</button>
-        </form>
-    </div>
     <div id="content" class="hidden">
         <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/5.0.1/gradio.js"></script>
         <gradio-app src="https://vicdst-jambon-beurre.hf.space"></gradio-app>
     </div>
 
     <script>
-        function checkCredentials(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+        function checkCredentials() {
+            const username = prompt("Veuillez entrer votre identifiant:");
+            const password = prompt("Veuillez entrer votre mot de passe:");
 
             if (username === 'boulangerie' && password === '287') {
-                document.getElementById('login-form').style.display = 'none';
                 document.getElementById('content').classList.remove('hidden');
             } else {
                 alert('Identifiant ou mot de passe incorrect.');
+                checkCredentials(); // Re-prompt if credentials are incorrect
             }
         }
 
@@ -64,6 +53,9 @@
 
         // Add event listener for changes
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateTheme);
+
+        // Prompt for credentials on page load
+        window.onload = checkCredentials;
     </script>
 </body>
 </html>
