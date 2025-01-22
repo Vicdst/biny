@@ -10,37 +10,102 @@
             text-align: center;
             padding: 50px;
             transition: background-color 0.3s, color 0.3s;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('background.jpeg') no-repeat center center/cover;
+            filter: blur(5px);
+            z-index: -1;
         }
         .hidden {
             display: none;
         }
         .dark-mode {
-            background-color: rgb(17, 17, 18);
+            background-color: rgba(17, 17, 18, 0.8);
             color: white;
         }
         .light-mode {
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.8);
             color: black;
+        }
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .no-background::before {
+            content: none;
+        }
+        .maintenance {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        .maintenance h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        .maintenance p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body class="light-mode">
-    <div id="login-form">
-        <h2>Connexion</h2>
-        <form onsubmit="checkCredentials(event)">
-            <label for="username">Identifiant:</label>
-            <input type="text" id="username" name="username" required><br><br>
-            <label for="password">Mot de passe:</label>
-            <input type="password" id="password" name="password" required><br><br>
-            <button type="submit">Se connecter</button>
-        </form>
+    <div id="maintenance-page" class="maintenance hidden">
+        <span style="font-size: 5em;">🚧</span>
+        <h1>Site en maintenance</h1>
+        <p>Nous effectuons des travaux de maintenance. Veuillez revenir plus tard.</p>
     </div>
-    <div id="content" class="hidden">
-        <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/5.0.1/gradio.js"></script>
-        <gradio-app src="https://vicdst-jambon-beurre.hf.space"></gradio-app>
+    <div id="content" class="content-wrapper">
+        <div id="login-form">
+            <h2>Connexion</h2>
+            <form onsubmit="checkCredentials(event)">
+                <label for="username">Identifiant:</label>
+                <input type="text" id="username" name="username" required><br><br>
+                <label for="password">Mot de passe:</label>
+                <input type="password" id="password" name="password" required><br><br>
+                <button type="submit">Se connecter</button>
+            </form>
+        </div>
+        <div id="app-content" class="hidden">
+            <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/5.0.1/gradio.js"></script>
+            <gradio-app src="https://vicdst-jambon-beurre.hf.space"></gradio-app>
+        </div>
     </div>
 
     <script>
+        // Définir la variable maintenance
+        const maintenance = true; // Changez cette valeur pour activer ou désactiver la maintenance
+
+        // Vérifier la valeur de maintenance et afficher la page de maintenance si nécessaire
+        if (maintenance) {
+            document.getElementById('maintenance-page').classList.remove('hidden');
+            document.getElementById('content').classList.add('hidden');
+        } else {
+            document.getElementById('maintenance-page').classList.add('hidden');
+            document.getElementById('content').classList.remove('hidden');
+        }
+
         function checkCredentials(event) {
             event.preventDefault();
             const username = document.getElementById('username').value;
@@ -48,7 +113,8 @@
 
             if (username === 'boulangerie' && password === '287') {
                 document.getElementById('login-form').style.display = 'none';
-                document.getElementById('content').classList.remove('hidden');
+                document.getElementById('app-content').classList.remove('hidden');
+                document.body.classList.add('no-background');
             } else {
                 alert('Identifiant ou mot de passe incorrect.');
             }
