@@ -41,11 +41,15 @@
       background: limegreen;
       transition: width 0.1s linear;
     }
-    video {
+    #videoContainer {
       display: none;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+    }
+    iframe {
+      border: none;
+      width: 100%;
+      height: 100%;
     }
     .info-text {
       font-size: 1.2em;
@@ -63,15 +67,17 @@
     </div>
   </div>
 
-  <video id="film" src="film.mp4" controls autoplay></video>
+  <div id="videoContainer">
+    <iframe src="https://streamable.com/e/j84ta5" allowfullscreen></iframe>
+  </div>
 
   <script>
     const progressBar = document.getElementById('progressBar');
     const loader = document.getElementById('loader');
-    const film = document.getElementById('film');
+    const videoContainer = document.getElementById('videoContainer');
     let progress = 0;
     const duration = 20000; // 20 secondes
-    const interval = 100; // mise à jour toutes les 100ms
+    const interval = 100;
 
     const timer = setInterval(() => {
       progress += interval;
@@ -81,12 +87,12 @@
       if (progress >= duration) {
         clearInterval(timer);
         loader.style.display = 'none';
-        film.style.display = 'block';
-        film.play();
-        film.requestFullscreen().catch(() => {
-          // fallback si le fullscreen échoue
-          console.log("Impossible de passer en plein écran automatiquement.");
-        });
+        videoContainer.style.display = 'block';
+        // Optionnel : tentative de plein écran automatique
+        const iframe = videoContainer.querySelector('iframe');
+        if (iframe.requestFullscreen) {
+          iframe.requestFullscreen().catch(() => {});
+        }
       }
     }, interval);
   </script>
