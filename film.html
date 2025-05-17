@@ -9,7 +9,7 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: sans-serif;
+      font-family: 'Segoe UI', sans-serif;
     }
     body, html {
       width: 100%;
@@ -18,29 +18,65 @@
       color: white;
       overflow: hidden;
     }
+
+    /* --- Fond animé --- */
     #loader {
+      position: relative;
+      z-index: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: black;
+      background: linear-gradient(135deg, #000000, #1a1a1a);
+      animation: backgroundMove 10s infinite alternate;
       text-align: center;
     }
+
+    @keyframes backgroundMove {
+      0% {
+        background-position: 0% 50%;
+      }
+      100% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .info-text {
+      font-size: 1.5em;
+      margin: 10px 0;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.4;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+    }
+
     .progress-container {
       width: 80%;
-      height: 20px;
+      height: 16px;
       background: #333;
-      border-radius: 10px;
+      border-radius: 20px;
       overflow: hidden;
-      margin: 20px 0;
+      margin: 30px 0;
+      box-shadow: 0 0 10px #00ff88;
     }
+
     .progress-bar {
       height: 100%;
       width: 0%;
-      background: limegreen;
+      background: linear-gradient(90deg, #00ff88, #00aaff);
       transition: width 0.1s linear;
     }
+
+    /* --- Vidéo --- */
     #videoContainer {
       display: none;
       width: 100%;
@@ -51,9 +87,16 @@
       width: 100%;
       height: 100%;
     }
-    .info-text {
-      font-size: 1.2em;
-      margin: 5px 0;
+
+    /* --- Transition fade --- */
+    .fade-out {
+      animation: fadeOut 1s forwards;
+    }
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
     }
   </style>
 </head>
@@ -76,7 +119,7 @@
     const loader = document.getElementById('loader');
     const videoContainer = document.getElementById('videoContainer');
     let progress = 0;
-    const duration = 20000; // 20 secondes
+    const duration = 20000; // 20 sec
     const interval = 100;
 
     const timer = setInterval(() => {
@@ -86,13 +129,16 @@
 
       if (progress >= duration) {
         clearInterval(timer);
-        loader.style.display = 'none';
-        videoContainer.style.display = 'block';
-        // Optionnel : tentative de plein écran automatique
-        const iframe = videoContainer.querySelector('iframe');
-        if (iframe.requestFullscreen) {
-          iframe.requestFullscreen().catch(() => {});
-        }
+        loader.classList.add('fade-out');
+        setTimeout(() => {
+          loader.style.display = 'none';
+          videoContainer.style.display = 'block';
+          // Tentative plein écran
+          const iframe = videoContainer.querySelector('iframe');
+          if (iframe.requestFullscreen) {
+            iframe.requestFullscreen().catch(() => {});
+          }
+        }, 1000); // durée de la fade
       }
     }, interval);
   </script>
