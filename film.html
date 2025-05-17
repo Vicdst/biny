@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lecture du film</title>
+  <title>Projection</title>
   <style>
     * {
       margin: 0;
@@ -11,46 +11,36 @@
       box-sizing: border-box;
       font-family: 'Segoe UI', sans-serif;
     }
-    body, html {
+    html, body {
       width: 100%;
       height: 100%;
       background: black;
-      color: white;
       overflow: hidden;
     }
 
-    /* --- Fond animé --- */
+    /* Loader avec fond animé */
     #loader {
-      position: relative;
-      z-index: 1;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at center, #111 0%, #000 100%);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      background: linear-gradient(135deg, #000000, #1a1a1a);
-      animation: backgroundMove 10s infinite alternate;
-      text-align: center;
-    }
-
-    @keyframes backgroundMove {
-      0% {
-        background-position: 0% 50%;
-      }
-      100% {
-        background-position: 100% 50%;
-      }
+      z-index: 10;
     }
 
     .info-text {
       font-size: 1.5em;
-      margin: 10px 0;
+      color: white;
       animation: pulse 2s infinite;
+      margin: 10px 0;
     }
 
     @keyframes pulse {
       0%, 100% {
-        opacity: 0.4;
+        opacity: 0.5;
         transform: scale(1);
       }
       50% {
@@ -60,48 +50,86 @@
     }
 
     .progress-container {
-      width: 80%;
-      height: 16px;
-      background: #333;
-      border-radius: 20px;
+      width: 70%;
+      height: 18px;
+      background: #444;
+      border-radius: 30px;
       overflow: hidden;
-      margin: 30px 0;
-      box-shadow: 0 0 10px #00ff88;
+      margin-top: 30px;
+      box-shadow: 0 0 12px #ff0040;
     }
 
     .progress-bar {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, #00ff88, #00aaff);
+      background: linear-gradient(to right, #ff0040, #ff7300);
       transition: width 0.1s linear;
     }
 
-    /* --- Vidéo --- */
+    /* Rideaux rouges */
+    #curtains {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 9;
+      pointer-events: none;
+    }
+
+    .curtain {
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        #a00,
+        #a00 10px,
+        #900 10px,
+        #900 20px
+      );
+      background-size: cover;
+      transition: transform 2s ease-in-out;
+    }
+
+    .left-curtain {
+      left: 0;
+      transform: translateX(0%);
+      border-right: 2px solid #000;
+    }
+
+    .right-curtain {
+      right: 0;
+      transform: translateX(0%);
+      border-left: 2px solid #000;
+    }
+
+    .open-left {
+      transform: translateX(-100%);
+    }
+
+    .open-right {
+      transform: translateX(100%);
+    }
+
+    /* Conteneur vidéo */
     #videoContainer {
       display: none;
       width: 100%;
       height: 100%;
     }
+
     iframe {
-      border: none;
       width: 100%;
       height: 100%;
-    }
-
-    /* --- Transition fade --- */
-    .fade-out {
-      animation: fadeOut 1s forwards;
-    }
-    @keyframes fadeOut {
-      to {
-        opacity: 0;
-        visibility: hidden;
-      }
+      border: none;
     }
   </style>
 </head>
 <body>
 
+  <!-- Écran de chargement -->
   <div id="loader">
     <div class="info-text">🎧 Activer le son</div>
     <div class="info-text">📱 Visionnage à l'horizontale pour plus de confort</div>
@@ -110,16 +138,26 @@
     </div>
   </div>
 
+  <!-- Rideaux -->
+  <div id="curtains">
+    <div class="curtain left-curtain" id="leftCurtain"></div>
+    <div class="curtain right-curtain" id="rightCurtain"></div>
+  </div>
+
+  <!-- Vidéo -->
   <div id="videoContainer">
     <iframe src="https://streamable.com/e/j84ta5" allowfullscreen></iframe>
   </div>
 
   <script>
-    const progressBar = document.getElementById('progressBar');
     const loader = document.getElementById('loader');
+    const progressBar = document.getElementById('progressBar');
+    const leftCurtain = document.getElementById('leftCurtain');
+    const rightCurtain = document.getElementById('rightCurtain');
     const videoContainer = document.getElementById('videoContainer');
+
     let progress = 0;
-    const duration = 20000; // 20 sec
+    const duration = 20000;
     const interval = 100;
 
     const timer = setInterval(() => {
@@ -129,16 +167,22 @@
 
       if (progress >= duration) {
         clearInterval(timer);
-        loader.classList.add('fade-out');
+
+        // Étape 1 : cacher le loader
+        loader.style.display = 'none';
+
+        // Étape 2 : ouvrir les rideaux
+        leftCurtain.classList.add('open-left');
+        rightCurtain.classList.add('open-right');
+
+        // Étape 3 : lancer la vidéo après animation rideaux
         setTimeout(() => {
-          loader.style.display = 'none';
           videoContainer.style.display = 'block';
-          // Tentative plein écran
           const iframe = videoContainer.querySelector('iframe');
           if (iframe.requestFullscreen) {
             iframe.requestFullscreen().catch(() => {});
           }
-        }, 1000); // durée de la fade
+        }, 2000); // temps d’ouverture des rideaux
       }
     }, interval);
   </script>
