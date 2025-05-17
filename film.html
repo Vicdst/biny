@@ -2,53 +2,68 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Projection</title>
   <style>
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     html, body {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       background: black;
       overflow: hidden;
+    }
+
+    /* Intro machine à écrire */
+    #intro {
+      position: absolute;
+      width: 100%; height: 100%;
+      background: black;
+      color: red;
+      font-size: 2em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 20;
+    }
+    .typewriter-text {
+      border-right: 2px solid red;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      animation: typing 3s steps(22, end) forwards, blink 0.75s step-end infinite;
+    }
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 22ch }
+    }
+    @keyframes blink {
+      50% { border-color: transparent }
     }
 
     /* Loader */
     #loader {
       position: absolute;
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       background: radial-gradient(ellipse at center, #111 0%, #000 100%);
-      display: flex;
+      display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       z-index: 10;
     }
-
     .info-text {
       font-size: 1.5em;
       color: white;
       animation: pulse 2s infinite;
       margin: 10px 0;
+      text-align: center;
     }
-
     @keyframes pulse {
-      0%, 100% {
-        opacity: 0.5;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.05);
-      }
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
     }
-
     .progress-container {
       width: 70%;
       height: 18px;
@@ -58,7 +73,6 @@
       margin-top: 30px;
       box-shadow: 0 0 12px #ff0040;
     }
-
     .progress-bar {
       height: 100%;
       width: 0%;
@@ -66,17 +80,15 @@
       transition: width 0.1s linear;
     }
 
-    /* Rideaux */
+    /* Rideaux rouges */
     #curtains {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       z-index: 9;
       pointer-events: none;
+      display: none;
     }
-
     .curtain {
       position: absolute;
       top: 0;
@@ -91,43 +103,21 @@
       );
       transition: transform 2s ease-in-out;
     }
-
     .left-curtain {
       left: 0;
       transform: translateX(0%);
       border-right: 2px solid #000;
     }
-
     .right-curtain {
       right: 0;
       transform: translateX(0%);
       border-left: 2px solid #000;
     }
-
     .open-left {
       transform: translateX(-100%);
     }
-
     .open-right {
       transform: translateX(100%);
-    }
-
-    /* Texte sur les rideaux */
-    #curtain-text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 2em;
-      color: white;
-      z-index: 10;
-      text-shadow: 2px 2px 10px black;
-      pointer-events: none;
-      transition: opacity 1s ease;
-    }
-
-    .hide-text {
-      opacity: 0;
     }
 
     /* Vidéo */
@@ -135,8 +125,8 @@
       display: none;
       width: 100%;
       height: 100%;
+      z-index: 1;
     }
-
     iframe {
       width: 100%;
       height: 100%;
@@ -146,6 +136,11 @@
 </head>
 <body>
 
+  <!-- Intro machine à écrire -->
+  <div id="intro">
+    <div class="typewriter-text">Made with &lt;3 by Vicdst</div>
+  </div>
+
   <!-- Écran de chargement -->
   <div id="loader">
     <div class="info-text">🎧 Activer le son</div>
@@ -154,9 +149,6 @@
       <div class="progress-bar" id="progressBar"></div>
     </div>
   </div>
-
-  <!-- Texte sur les rideaux -->
-  <div id="curtain-text">🎬 Site web par Vicdst</div>
 
   <!-- Rideaux -->
   <div id="curtains">
@@ -170,45 +162,61 @@
   </div>
 
   <script>
+    const intro = document.getElementById('intro');
     const loader = document.getElementById('loader');
     const progressBar = document.getElementById('progressBar');
+    const curtains = document.getElementById('curtains');
     const leftCurtain = document.getElementById('leftCurtain');
     const rightCurtain = document.getElementById('rightCurtain');
     const videoContainer = document.getElementById('videoContainer');
-    const curtainText = document.getElementById('curtain-text');
 
-    let progress = 0;
-    const duration = 20000;
+    // Temps intro machine à écrire (en ms)
+    const introDuration = 3000; 
+
+    // Temps chargement en ms
+    const loadDuration = 20000;
     const interval = 100;
 
-    const timer = setInterval(() => {
-      progress += interval;
-      const percent = (progress / duration) * 100;
-      progressBar.style.width = percent + '%';
+    // Début avec intro visible
+    intro.style.display = 'flex';
 
-      if (progress >= duration) {
-        clearInterval(timer);
+    setTimeout(() => {
+      // Cacher intro, afficher loader
+      intro.style.display = 'none';
+      loader.style.display = 'flex';
 
-        // Cacher le loader
-        loader.style.display = 'none';
+      let progress = 0;
 
-        // Cacher le texte
-        curtainText.classList.add('hide-text');
+      const timer = setInterval(() => {
+        progress += interval;
+        const percent = (progress / loadDuration) * 100;
+        progressBar.style.width = percent + '%';
 
-        // Ouvrir les rideaux
-        leftCurtain.classList.add('open-left');
-        rightCurtain.classList.add('open-right');
+        if (progress >= loadDuration) {
+          clearInterval(timer);
+          loader.style.display = 'none';
 
-        // Afficher la vidéo après l’ouverture
-        setTimeout(() => {
-          videoContainer.style.display = 'block';
-          const iframe = videoContainer.querySelector('iframe');
-          if (iframe.requestFullscreen) {
-            iframe.requestFullscreen().catch(() => {});
-          }
-        }, 2000);
-      }
-    }, interval);
+          // Afficher rideaux
+          curtains.style.display = 'block';
+
+          // Ouvrir rideaux
+          setTimeout(() => {
+            leftCurtain.classList.add('open-left');
+            rightCurtain.classList.add('open-right');
+          }, 100); // petit délai pour appliquer display block
+
+          // Lancer vidéo après animation rideaux (2s)
+          setTimeout(() => {
+            curtains.style.display = 'none';
+            videoContainer.style.display = 'block';
+            const iframe = videoContainer.querySelector('iframe');
+            if (iframe.requestFullscreen) {
+              iframe.requestFullscreen().catch(() => {});
+            }
+          }, 2100);
+        }
+      }, interval);
+    }, introDuration);
   </script>
 
 </body>
