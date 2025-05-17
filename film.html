@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lecture du film</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: sans-serif;
+    }
+    body, html {
+      width: 100%;
+      height: 100%;
+      background: black;
+      color: white;
+      overflow: hidden;
+    }
+    #loader {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: black;
+      text-align: center;
+    }
+    .progress-container {
+      width: 80%;
+      height: 20px;
+      background: #333;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 20px 0;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: limegreen;
+      transition: width 0.1s linear;
+    }
+    video {
+      display: none;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .info-text {
+      font-size: 1.2em;
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loader">
+    <div class="info-text">🎧 Activer le son</div>
+    <div class="info-text">📱 Visionnage à l'horizontale pour plus de confort</div>
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+  </div>
+
+  <video id="film" src="film.mp4" controls autoplay></video>
+
+  <script>
+    const progressBar = document.getElementById('progressBar');
+    const loader = document.getElementById('loader');
+    const film = document.getElementById('film');
+    let progress = 0;
+    const duration = 20000; // 20 secondes
+    const interval = 100; // mise à jour toutes les 100ms
+
+    const timer = setInterval(() => {
+      progress += interval;
+      const percent = (progress / duration) * 100;
+      progressBar.style.width = percent + '%';
+
+      if (progress >= duration) {
+        clearInterval(timer);
+        loader.style.display = 'none';
+        film.style.display = 'block';
+        film.play();
+        film.requestFullscreen().catch(() => {
+          // fallback si le fullscreen échoue
+          console.log("Impossible de passer en plein écran automatiquement.");
+        });
+      }
+    }, interval);
+  </script>
+
+</body>
+</html>
