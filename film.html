@@ -5,7 +5,7 @@
   <title>Site Fermé</title>
   <style>
     body {
-      background-color: #f8f8f8;
+      background-color: #f0f0f0;
       color: #333;
       font-family: Arial, sans-serif;
       text-align: center;
@@ -13,17 +13,38 @@
     }
     h1 {
       font-size: 3em;
+      margin-bottom: 0.2em;
     }
     .emoji {
-      font-size: 2em;
+      font-size: 1.5em;
+      margin-bottom: 1em;
+    }
+    button {
+      padding: 0.7em 1.5em;
+      font-size: 1em;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    p {
+      margin-bottom: 1.5em;
     }
   </style>
 </head>
 <body>
   <div>
-    <h1>🚫 Site fermé 😢</h1>
-    <p class="emoji">⛔️🔒🛑📴</p>
+    <h1>🚫 Site fermé</h1>
+    <p class="emoji">😢</p>
     <p>Merci de votre visite.</p>
+    <button onclick="alert('Votre demande de réouverture a été envoyée.')">
+      Demander la réouverture
+    </button>
   </div>
 </body>
 </html>
